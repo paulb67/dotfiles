@@ -219,6 +219,10 @@ if [ -s ~/.nvm/nvm.sh ]; then
     NVM_DIR=~/.nvm
     source ~/.nvm/nvm.sh
     nvm use v0.10.12 &> /dev/null # silence nvm use; needed for rsync
+elif [ -s /.nvm/nvm.sh ]; then
+    NVM_DIR=/.nvm
+    source /.nvm/nvm.sh
+    nvm use v0.10.12 &> /dev/null # silence nvm use; needed for rsync
 fi
 
 ## ------------------------------
