@@ -218,13 +218,15 @@ export NODE_DISABLE_COLORS=1
 if [ -s ~/.nvm/nvm.sh ]; then
     NVM_DIR=~/.nvm
     source ~/.nvm/nvm.sh
-    nvm use v0.10.12 &> /dev/null # silence nvm use; needed for rsync
+    nvm use v0.10.17 &> /dev/null # silence nvm use; needed for rsync
 elif [ -s /.nvm/nvm.sh ]; then
     NVM_DIR=/.nvm
     source /.nvm/nvm.sh
-    nvm use v0.10.12 &> /dev/null # silence nvm use; needed for rsync
+    nvm use v0.10.17 &> /dev/null # silence nvm use; needed for rsync
 fi
-
+if [ -d $NVM_DIR/v0.10.17/bin ]; then
+    export PATH=$PATH:$NVM_DIR/v0.10.17/bin
+fi
 ## ------------------------------
 ## -- 3) User-customized code  --
 ## ------------------------------
