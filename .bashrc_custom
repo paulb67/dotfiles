@@ -1,0 +1,63 @@
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# Add git branch name to prompt
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\[\1\]/'
+  #ref=$(git-symbolic-ref HEAD 2> /dev/null) || return
+  #echo "("${ref#refs/heads/}")"
+}
+PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(parse_git_branch)\$ "
+
+# Java garbage
+#
+#JAVA_HOME="/usr/java/jdk1.6.0_18"
+#JAVA_VENDOR="sun"
+#MAVEN_HOME="/usr/share/maven2"
+#WL_HOME="/usr/java/bea/wlserver_10.0"
+#MAVEN_OPTS="-Xmx384M -XX:MaxPermSize=128M"
+#MOZILLA_FIVE_HOME="/usr/lib/mozilla_legacy"
+
+#PATH=$PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin:$WL_HOME/server/bin:~/bin
+
+#export JAVA_HOME JAVA_VENDOR MAVEN_HOME WL_HOME MAVEN_OPTS MOZILLA_FIVE_HOME PATH
+
+# fix stupid non-existent HP keyboard to stop creating files called 'grep' 'more' 'less' and so on...
+# UPDATE: or just use another keyboard!
+#xmodmap -e "keycode  94 = backslash bar backslash bar"
+
+export HISTIGNORE="&:ls:[bf]g:exit"
+
+#source $HOME/bin/run_ssh_agent.sh
+
+#export M=/opt/mpx/etc
+export TMOUT=
+ssr () { ssh -A -t -l root "$1" "export TMOUT=; bash"; }
+#ssa () { ssh -i /home/dev/aws/gdl_devs.pem -l ubuntu "$1"; }
+giton () { gba --contains `whatis-deployed.sh $1 $2`; }
+
+# history search - ^-s is unusable!
+#bind '"\C-t"':forward-search-history
+
+# Set up AWS
+if [ -r "$HOME/.ec2_config" ]; then
+    source $HOME/.ec2_config
+fi
+
+# Use rvm
+if [ -r "$HOME/.rvm/bin" ]; then
+    PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+fi
